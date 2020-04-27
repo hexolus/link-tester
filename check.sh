@@ -15,16 +15,20 @@ while IFS= read -r line
 do
     CURLINK="$(echo -e "$line" | sed -e 's/[[:space:]\r\n\t]*$//')"
     CURLINK="$(echo -e "$CURLINK" | sed -e 's/^[[:space:]\r\n\t]*//')"
-    result=$(curl -s $CURLINK | grep $LINK)
-    ((++CHECKED))
-
-    if [ "$result" != "" ]
+    
+    if [ "$CURLINK" != "" ]
     then
-        # if the link is in the content
-        echo -e "${GREEN}[GOOD]${NC} $line"
-    else
-        echo -e "${RED}[BAD]${NC} $line"
-        ((++BROKEN))
+        result=$(curl -s $CURLINK | grep $LINK)
+        ((++CHECKED))
+        
+        if [ "$result" != "" ]
+        then
+            # if the link is in the content
+            echo -e "${GREEN}[GOOD]${NC} $line"
+        else
+            echo -e "${RED}[BAD]${NC} $line"
+            ((++BROKEN))
+        fi
     fi
 done < $FILE
 
