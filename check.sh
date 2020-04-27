@@ -10,6 +10,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 echo -e "${YELLOW}Cheking file $FILE against $LINK ${NC}"
+BASENAME=$(basename $FILE)
 
 while IFS= read -r line
 do
@@ -25,8 +26,10 @@ do
         then
             # if the link is in the content
             echo -e "${GREEN}[GOOD]${NC} $line"
+            echo $line >> "./results/good_$BASENAME"
         else
             echo -e "${RED}[BAD]${NC} $line"
+            echo $line >> "./results/bad_$BASENAME"
             ((++BROKEN))
         fi
     fi
@@ -35,6 +38,7 @@ done < $FILE
 echo -e "${YELLOW}"
 echo "Done."
 echo ""
+echo "Result $FILE against $LINK"
 echo "CHECKED: $CHECKED"
 echo "BROKEN: $BROKEN"
 echo "FOUND: $((CHECKED-BROKEN))"
