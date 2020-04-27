@@ -1,0 +1,3 @@
+http://google.com/?q=yourlink
+http://yahoo.com/
+http://yourlink.com/
